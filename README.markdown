@@ -6,11 +6,9 @@ multiple file uploaders.
 
 ## Credits
 
-**Author:** Jeremy Lindblom <jeremy@synapsestudios.com>
+**Author:** Jeremy Lindblom \<<http://webdevilaz.com>\>
 
-**Author's Website:** http://webdevilaz.com
-
-**Credits:** A fork of relCopy by Andres Vidal <code@andresvidal.com>
+**Credits:** A fork of relCopy by Andres Vidal \<<http://www.andresvidal.com/labs/relcopy.html>\>
 
 ## Settings
 
