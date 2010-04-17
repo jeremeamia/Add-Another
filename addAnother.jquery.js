@@ -1,107 +1,124 @@
-/**
- * jQuery-Plugin "addAnother"
- * 
- * based on relCopy by Andres Vidal <code@andresvidal.com>
- * 
- * @version: 0.9
- * 
- * @author: Jeremy Lindblom
- *          jeremy@synapsestudios.com
- *          http://webdevilaz.com
- */
+// AddAnother jQuery Plugin by Jeremy Lindblom. Based on relCopy by Andres Vidal.
 (function($) {
 
-	// Global counter for addAnother
-	var addAnotherCounters = {};
+	// Add an endsWith() method to the string object
+	String.prototype.endsWith = function(str){
+		return (this.substr(this.length-str.length, str.length) == str);
+	};
 
+	// Create the addAnother jQuery plugin
 	$.fn.addAnother = function(options) {
-		
+
+		// Keeps track of the current number of items. Ensures uniqueness of IDs
+		var counters = {};
+
+		// This is the selector used to call addAnother
+		var itemSelector = $(this).selector;
+
+		// This is the class name of the item to which addAnother was called
+		var itemClass = itemSelector.substr(itemSelector.lastIndexOf('.')+1);
+
+		// The class added to copies of the item
+		var copyClass = 'copy-'+itemClass;
+
+		// Take the options parameter and combine with default settings
 		var settings = jQuery.extend({
-			selector: false,
-			excludeSelector: ".exclude",
-			emptySelector: ".empty",
-			copyClass: false,
-			append: '',
+			limit: 0,
+			excludeSelector: ".exclude-item",
+			emptySelector: ".empty-item",
 			clearInputs: true,
-			limit: 0, // 0 = unlimited
+			makeInputArrays: true,
+			animate: false,
+			allowRemove: true,
+			removeClass: 'remove-item',
+			addLinkText: "Add Another",
+			removeLinkText: "Remove",
 			onFull: false,
 			onNotFull: false,
-			onRemove: false,
-			animate: false,
-			removeClass: false
+			onRemove: false
 		}, options);
 		
-		if (!settings.selector || !settings.copyClass){
-			return this;
-		}
-		
+		// Make sure limit is an int
 		settings.limit = parseInt(settings.limit);
+
+		// Add Another Link
+		$(this).after('<div class="add-another"><a href="#" class="add-another-'+itemClass+'">'+settings.addLinkText+'</a></div>');
 		
-		$(settings.selector).find('input, textarea, select').each(function(){
-			$(this).attr('name', $(this).attr('name')+'[]');
+		// Add brackets to input names for array submittal
+		$(itemSelector).find('input, textarea, select').each(function(){
+			var elementName = $(this).attr('name');
+			if (settings.makeInputArrays && !elementName.endsWith('[]')){
+				$(this).attr('name', elementName+'[]');
+			}
 		});
 		
 		// Loop each element
 		this.each(function() {
 			
 			// Set click action
-			$(this).click(function(){
-				var rel = settings.selector;
-				if (addAnotherCounters[rel] == undefined){
-					addAnotherCounters[rel] = 1;
-				}
+			$('.add-another-'+itemClass).click(function(){
 				
 				// Stop at limit
-				if (settings.limit != 0 && $(rel).length >= settings.limit){
+				if (settings.limit != 0 && $(itemSelector).length >= settings.limit){
 					return false;
 				};
+
+				// Increment the element counter
+				if (!counters[itemSelector]){
+					counters[itemSelector] = 1;
+				}
+				var counter = counters[itemSelector]++;
 				
-				var counter = addAnotherCounters[rel]++;
-				var master = $(rel+":first");
+				// Get jQuery objects for all of the participating elements
+				var master = $(itemSelector+":first");
 				var parent = $(master).parent();
-				var clone = $(master).clone(true).addClass(settings.copyClass+counter).append(settings.append);
+				var clone = $(master).clone(true)
+					.addClass(copyClass+counter);
+
+				// Add a remove link if enabled
+				if (settings.allowRemove){
+					$(clone).append('<a href="#" class="'+settings.removeClass+'">'+settings.removeLinkText+'</a>');
+				}
 				
-				// Remove Elements with excludeSelector
+				// Remove Elements with excludeSelector from the clone
 				if (settings.excludeSelector){
 					$(clone).find(settings.excludeSelector).remove();
 				};
 				
-				// Empty Elements with emptySelector
+				// Empty Elements with emptySelector in the clone
 				if (settings.emptySelector){
 					$(clone).find(settings.emptySelector).empty();
 				};								
 				
 				// Increment Clone IDs
-				if ( $(clone).attr('id') ){
-					var newid = $(clone).attr('id') + (counter +1);
+				if ($(clone).attr('id') ){
+					var newid = $(clone).attr('id')+(counter+1);
 					$(clone).attr('id', newid);
 				};
 				
 				// Increment Clone Children IDs
 				$(clone).find('[id]').each(function(){
-					var newid = $(this).attr('id') + (counter +1);
+					var newid = $(this).attr('id')+(counter+1);
 					$(this).attr('id', newid);
 				});
 				
 				// Clear Inputs/Textarea
 				if (settings.clearInputs){
 					$(clone).find(':input').each(function(){
-						var type = $(this).attr('type');
-						switch(type)
+						switch ($(this).attr('type'))
 						{
 							case "button":
-								break;
 							case "reset":
-								break;
 							case "submit":
 								break;
 							case "checkbox":
+							case "radio":
 								$(this).attr('checked', '');
 								break;
 							default:
 							  $(this).val("");
-						}						
-					});					
+						}
+					});
 				};
 				
 				// Hide new item by default if going to animate
@@ -110,7 +127,7 @@
 				}
 				
 				// Append the new element(s)
-				$(parent).find(rel+':last').after(clone);
+				$(parent).find(itemSelector+':last').after(clone);
 				
 				// Show it with animation
 				if (settings.animate){
@@ -119,8 +136,7 @@
 				
 				// Add remove operation to removeClass click event
 				if (settings.removeClass){
-					var removeTarget = '.'+settings.copyClass+counter;
-					console.log(settings.removeClass+' || '+removeTarget);
+					var removeTarget = '.'+copyClass+counter;
 					$(clone).find('.'+settings.removeClass).click(function(){
 						// Remove the copy of which the remove link was clicked
 						if (settings.animate){
@@ -132,15 +148,21 @@
 						}
 						
 						// Call the onRemove callback if defined
-						if (settings.onRemove){settings.onRemove();}
+						if (settings.onRemove){
+							settings.onRemove();
+						}
 					});
 				}
 				
 				// Run onFull/onNotFull callbacks if defined
-				if (settings.limit != 0 && $(rel).length >= settings.limit){
-					if (settings.onFull){settings.onFull();}
+				if (settings.limit != 0 && $(itemSelector).length >= settings.limit){
+					if (settings.onFull){
+						settings.onFull();
+					}
 				}else{
-					if (settings.onNotFull){settings.onNotFull();}
+					if (settings.onNotFull){
+						settings.onNotFull();
+					}
 				}
 				
 				return false;

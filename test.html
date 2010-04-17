@@ -1,0 +1,66 @@
+﻿<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+	<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+		<title>addAnother Example</title>
+		<style type="text/css">
+			.service, .person {margin: 1em 0;}
+			hr {margin: 2em 0;}
+		</style>
+		<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.3.2/jquery.min.js"></script>
+		<script type="text/javascript" src="addAnother.jquery.js"></script>
+		<script>
+		$(function(){
+			$('div.service').addAnother({
+				limit:       5,
+				animate:     true,
+				onFull:      function(){$('.add-another-service').hide();},
+				onRemove:    function(){$('.add-another-service').show();},
+				removeLinkText: '[-] Remove this Service',
+				addLinkText: '<b>[+] Add Another Service</b>'
+			});
+			$('div.person').addAnother({
+				limit:       3,
+				animate:     false,
+				onFull:      function(){$('.add-another-person').hide();},
+				onRemove:    function(){$('.add-another-person').show();},
+				removeLinkText: '[-] Remove this Person',
+				addLinkText: '<b>[+] Add Another Person</b>'
+			});
+		});
+		</script>
+	</head>
+	<body>
+		<form method="post">
+		
+			<div class="service">
+				<div class="form-field">
+					<label>Title:</label>
+					<input type="text" name="title[]" id="name" />
+				</div>
+				<div class="form-field">
+					<label>Description:</label>
+					<input type="text" name="desc[]" id="desc" />
+				</div>
+			</div>
+			
+			<hr />
+			
+			<div class="person">
+				<div class="form-field">
+					<label>First Name:</label>
+					<input type="text" name="fname" id="name" />
+				</div>
+				<div class="form-field">
+					<label>Last Name:</label>
+					<input type="text" name="lname" id="desc" />
+				</div>
+			</div>
+			
+			<hr />
+			
+			<p><input type="submit" /></p>
+
+		</form>
+	</body>
+</html>
