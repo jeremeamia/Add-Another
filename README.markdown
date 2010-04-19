@@ -28,12 +28,12 @@ multiple file uploaders.
 ## Usage
 
 In order to use AddAnother you must first include jQuery and the 
-`addAnother.jquery.js` script in your page. Create a chunk of HTML you would
-to be able to replicate and give it a class. Then add some javascript:
+`addAnother.jquery.js` script in your page. Then create a chunk of HTML you 
+would like to be able to replicate, and give it a class. Then add some javascript:
 
 	$('.the-class-of-the-html-chunk').addAnother({...});
 	
 where "&hellip;" is the options. You can have more than one AddAnother on one
-page. AddAnother does not automatically add brackets to your HTMl names, so you
+page. AddAnother does not automatically add brackets to your HTML names, so you
 must do this yourself if you plan on using the posted data as an array. Take a 
 look at the examples for more details.
