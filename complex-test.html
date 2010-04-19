@@ -1,0 +1,111 @@
+﻿<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+	<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+		<title>Complex Form Groups - AddAnother Example</title>
+		<style type="text/css">
+			body, input, select, textarea {font-family: Cambria, Times, "Times New Roman", serif; font-size: 16px;}
+			.field {margin: 0.75em 0; padding: 0.75em; background-color: #def; border: 1px #8af solid; width: 950px;}
+			.clear, .row {clear: left;}
+			a {color: #00c; font-weight: bold;}
+			.row > label {width: 150px; float: left; display: block; font-weight: bold;}
+			.row {padding-top: 10px;}
+			.input {float: left;}
+			.group {display: inline-block; margin-left: 25px; padding-left: 30px; border-left: 1px #acf solid; vertical-align: top;}
+			.group > .row:first-child {padding-top: 0;}
+			.field > .group:first-child {padding-left: 0; border-left: 0; margin-left: 0;}
+			.remove-item {clear: left; display: block; margin: 10px 0;}
+		</style>
+		<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.4.2/jquery.min.js"></script>
+		<script type="text/javascript" src="addAnother.jquery.js"></script>
+		<script>
+		$(function(){
+			$('div.field').addAnother({
+				limit:   3,
+				animate: true,
+				addLinkText: '(+) Add another complex field group',
+				removeLinkText: '(&minus;) Remove this',
+				onFull:      function(){$('.add-another-field').hide();},
+				onRemove:    function(){$('.add-another-field').show();}
+			});
+		});
+		</script>
+	</head>
+	<body>
+		<form method="post" action="#">
+			<div class="field">
+				<div class="group">
+					<div class="row">
+						<label for="text">Text:</label>
+						<div class="input">
+							<input type="text" name="text[]" id="text" />
+						</div>
+					</div>
+					<div class="row">
+						<label for="password">Password:</label>
+						<div class="input">
+							<input type="password" name="password[]" id="password" />
+						</div>
+					</div>
+					<div class="row">
+						<label for="textarea">Textarea:</label>
+						<div class="input">
+							<textarea name="textarea[]" id="textarea" rows="4" cols="30"></textarea>
+						</div>
+					</div>
+					<div class="clear"></div>
+				</div>
+				<div class="group">
+					<div class="row">
+						<label for="select">Select:</label>
+						<div class="input">
+							<select name="select[]" id="select">
+								<option value="0">Please Select One...</option>
+								<option value="1">Option 1</option>
+								<option value="2">Option 2</option>
+								<option value="3">Option 3</option>
+							</select>
+						</div>
+					</div>
+					<div class="row">
+						<label for="checkbox_option_1">Checkbox:</label>
+						<div class="input">
+							<div class="option">
+								<input type="checkbox" name="checkbox_options[][]" id="checkbox_option_1" value="option1" />
+								<label for="checkbox_option_1">Option 1</label>
+							</div>
+							<div class="option">
+								<input type="checkbox" name="checkbox_options[][]" id="checkbox_option_2" value="option2" />
+								<label for="checkbox_option_2">Option 2</label>
+							</div>
+							<div class="option">
+								<input type="checkbox" name="checkbox_options[][]" id="checkbox_option_3" value="option3" />
+								<label for="checkbox_option_3">Option 3</label>
+							</div>
+						</div>
+					</div>
+					<div class="row">
+						<label for="radio_option_1">Radio:</label>
+						<div class="input">
+							<div class="option">
+								<input type="radio" name="radio_options[]" id="radio_option_1" value="option1" />
+								<label for="radio_option_1">Option 1</label>
+							</div>
+							<div class="option">
+								<input type="radio" name="radio_options[]" id="radio_option_2" value="option2" />
+								<label for="radio_option_2">Option 2</label>
+							</div>
+							<div class="option">
+								<input type="radio" name="radio_options[]" id="radio_option_3" value="option3" />
+								<label for="radio_option_3">Option 3</label>
+							</div>
+						</div>
+					</div>
+					<div class="clear"></div>
+				</div>
+			</div>
+			<p><input type="submit" name="submit" value="Complete Form" /></p>
+		</form>
+		
+	</body>
+</html>

@@ -1,0 +1,31 @@
+﻿<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+	<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+		<title>Multiple File Uploader - AddAnother Example</title>
+		<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.4.2/jquery.min.js"></script>
+		<script type="text/javascript" src="addAnother.jquery.js"></script>
+		<script>
+		$(function(){
+			$('div.upload').addAnother({
+				limit:       5,
+				animate:     true,
+				onFull:      function(){$('.add-another-upload').hide();},
+				onRemove:    function(){$('.add-another-upload').show();},
+				removeLinkText: '[Remove]',
+				addLinkText: '(+) Add Another File'
+			});
+		});
+		</script>
+	</head>
+	<body>
+		<form method="post" action="#" enctype="multipart/form-data">
+			<div class="upload" style="margin-bottom: 10px;">
+				<label>File:</label>
+				<input type="file" name="upload[]" id="upload" />
+			</div>
+			<br />
+			<input type="submit" value="Save Files" />
+		</form>
+	</body>
+</html>

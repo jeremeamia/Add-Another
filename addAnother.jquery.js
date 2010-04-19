@@ -1,10 +1,8 @@
 // AddAnother jQuery Plugin by Jeremy Lindblom. Based on relCopy by Andres Vidal.
 (function($) {
-
-	// Add an endsWith() method to the string object
-	String.prototype.endsWith = function(str){
-		return (this.substr(this.length-str.length, str.length) == str);
-	};
+	
+	var regexSingleBrackets = /\[([^\]]*)\]+$/;
+	var regexDoubleBrackets = /\[[^\]]*\]\[([^\]]*)\]+$/;
 
 	// Create the addAnother jQuery plugin
 	$.fn.addAnother = function(options) {
@@ -27,7 +25,6 @@
 			excludeSelector: ".exclude-item",
 			emptySelector: ".empty-item",
 			clearInputs: true,
-			makeInputArrays: true,
 			animate: false,
 			allowRemove: true,
 			removeClass: 'remove-item',
@@ -44,12 +41,15 @@
 		// Add Another Link
 		$(this).after('<div class="add-another"><a href="#" class="add-another-'+itemClass+'">'+settings.addLinkText+'</a></div>');
 		
-		// Add brackets to input names for array submittal
+		// Fix initial bracketed values of input names for array submittal
 		$(itemSelector).find('input, textarea, select').each(function(){
 			var elementName = $(this).attr('name');
-			if (settings.makeInputArrays && !elementName.endsWith('[]')){
-				$(this).attr('name', elementName+'[]');
+			if (regexDoubleBrackets.test(elementName)){
+				elementName = elementName.replace(regexDoubleBrackets, '[0][$1]');
+			} else if (regexSingleBrackets.test(elementName)){
+				elementName = elementName.replace(regexSingleBrackets, '[0]');
 			}
+			$(this).attr('name', elementName);
 		});
 		
 		// Loop each element
@@ -80,26 +80,43 @@
 					$(clone).append('<a href="#" class="'+settings.removeClass+'">'+settings.removeLinkText+'</a>');
 				}
 				
-				// Remove Elements with excludeSelector from the clone
+				// Remove elements with excludeSelector from the clone
 				if (settings.excludeSelector){
 					$(clone).find(settings.excludeSelector).remove();
 				};
 				
-				// Empty Elements with emptySelector in the clone
+				// Empty elements with emptySelector in the clone
 				if (settings.emptySelector){
 					$(clone).find(settings.emptySelector).empty();
 				};								
 				
-				// Increment Clone IDs
+				// Increment clone IDs
 				if ($(clone).attr('id') ){
-					var newid = $(clone).attr('id')+(counter+1);
+					var newid = $(clone).attr('id')+'_'+(counter+1);
 					$(clone).attr('id', newid);
 				};
 				
-				// Increment Clone Children IDs
+				// Increment clone children IDs
 				$(clone).find('[id]').each(function(){
-					var newid = $(this).attr('id')+(counter+1);
+					var newid = $(this).attr('id')+'_'+(counter+1);
 					$(this).attr('id', newid);
+				});
+				
+				// Increment clone children labels
+				$(clone).find('[for]').each(function(){
+					var newfor = $(this).attr('for')+'_'+(counter+1);
+					$(this).attr('for', newfor);
+				});
+				
+				// Fix bracketed values of input names for array submittal
+				$(clone).find('input, textarea, select').each(function(){
+					var elementName = $(this).attr('name');
+					if (regexDoubleBrackets.test(elementName)){
+						elementName = elementName.replace(regexDoubleBrackets, '['+counter+'][$1]');
+					} else if (regexSingleBrackets.test(elementName)){
+						elementName = elementName.replace(regexSingleBrackets, '['+counter+']');
+					}
+					$(this).attr('name', elementName);
 				});
 				
 				// Clear Inputs/Textarea
