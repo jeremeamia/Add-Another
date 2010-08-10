@@ -29,6 +29,7 @@
 			allowRemove: true,
 			removeClass: 'remove-item',
 			addLinkText: "Add Another",
+			addLinkClass: 'add-another-'+itemClass,
 			removeLinkText: "Remove",
 			onFull: false,
 			onNotFull: false,
@@ -39,7 +40,7 @@
 		settings.limit = parseInt(settings.limit);
 
 		// Add Another Link
-		$(this).after('<div class="add-another"><a href="#" class="add-another-'+itemClass+'">'+settings.addLinkText+'</a></div>');
+		$(this).after('<div class="add-another"><a href="#" class="'+settings.addLinkClass+'">'+settings.addLinkText+'</a></div>');
 		
 		// Fix initial bracketed values of input names for array submittal
 		$(itemSelector).find('input, textarea, select').each(function(){

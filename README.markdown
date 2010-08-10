@@ -8,6 +8,8 @@ multiple file uploaders.
 
 **Author:** Jeremy Lindblom \<<http://webdevilaz.com>\>
 
+**Contributor:** Alan Hogan \<<http://alanhogan.com>\>
+
 **Note:** This is a fork of *relCopy* by Andres Vidal \<<http://www.andresvidal.com/labs/relcopy.html>\>
 
 ## Settings
@@ -20,6 +22,8 @@ multiple file uploaders.
 - **allowRemove** - If true, then a remove link will be added automatically
 - **removeClass** - The class of the remove link
 - **addLinkText** - The text of the add another link
+- **addLinkClass** - The class of the add another link 
+	(by default, 'add-another-x' where '.x' appears in selector used to indicate what will be duplicated.)
 - **removeLinkText** - The text of the remove link
 - **onFull** - A callback to be executed after an item is added and the group is full
 - **onNotFull** - A callback to be executed after an item is added and the group is NOT full
