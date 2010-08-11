@@ -1,8 +1,8 @@
 // AddAnother jQuery Plugin by Jeremy Lindblom. Based on relCopy by Andres Vidal.
 (function($) {
 	
-	var regexSingleBrackets = /\[([^\]]*)\]+$/;
-	var regexDoubleBrackets = /\[[^\]]*\]\[([^\]]*)\]+$/;
+	var regexSingleBrackets = /\[0?\]+$/;
+	var regexDoubleBrackets = /\[0?\]\[([^\]])\]+$/;
 
 	// Create the addAnother jQuery plugin
 	$.fn.addAnother = function(options) {
