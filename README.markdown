@@ -6,11 +6,11 @@ multiple file uploaders.
 
 ## Credits
 
-**Author:** Jeremy Lindblom \<<http://webdevilaz.com>\>
+**Author:** Jeremy Lindblom <<http://webdevilaz.com>>
 
-**Contributor:** Alan Hogan \<<http://alanhogan.com>\>
+**Contributor:** Alan Hogan <<http://alanhogan.com>>
 
-**Note:** This is a fork of *relCopy* by Andres Vidal \<<http://www.andresvidal.com/labs/relcopy.html>\>
+**Note:** This is a fork of *relCopy* by Andres Vidal <<http://www.andresvidal.com/labs/relcopy.html>>
 
 ## Settings
 
