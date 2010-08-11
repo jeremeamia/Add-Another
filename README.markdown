@@ -23,11 +23,20 @@ multiple file uploaders.
 - **removeClass** - The class of the remove link
 - **addLinkText** - The text of the add another link
 - **addLinkClass** - The class of the add another link 
-	(by default, 'add-another-x' where '.x' appears in selector used to indicate what will be duplicated.)
+	(by default, `add-another-x` where `.x` appears in selector used to indicate what will be duplicated.)
 - **removeLinkText** - The text of the remove link
 - **onFull** - A callback to be executed after an item is added and the group is full
 - **onNotFull** - A callback to be executed after an item is added and the group is NOT full
 - **onRemove** - A callback to be executed after an item is removed
+- **explicitBracketNumbering** - Attempts to smartly set names that ended in    
+	`[]` or `[0]` to end in    
+	`[0]`, `[1]`, `[2]`…
+	and names that ended in    
+	`[0][foo]` to    
+	`[0][foo]`, `[1][foo]`, `[2][foo]`…, respectively.    
+	This is `true` by default.    
+	(Don't worry, copied elements' `id` attributes and corresponding `for` attributes 
+	are appended with `_1`, `_2`, … regardless.)
 
 ## Usage
 

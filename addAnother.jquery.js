@@ -33,7 +33,8 @@
 			removeLinkText: "Remove",
 			onFull: false,
 			onNotFull: false,
-			onRemove: false
+			onRemove: false,
+			explicitBracketNumbering: true
 		}, options);
 		
 		// Make sure limit is an int
@@ -43,15 +44,17 @@
 		$(this).after('<div class="add-another"><a href="#" class="'+settings.addLinkClass+'">'+settings.addLinkText+'</a></div>');
 		
 		// Fix initial bracketed values of input names for array submittal
-		$(itemSelector).find('input, textarea, select').each(function(){
-			var elementName = $(this).attr('name');
-			if (regexDoubleBrackets.test(elementName)){
-				elementName = elementName.replace(regexDoubleBrackets, '[0][$1]');
-			} else if (regexSingleBrackets.test(elementName)){
-				elementName = elementName.replace(regexSingleBrackets, '[0]');
-			}
-			$(this).attr('name', elementName);
-		});
+		if (settings.explicitBracketNumbering) {
+			$(itemSelector).find('input, textarea, select').each(function(){
+				var elementName = $(this).attr('name');
+				if (regexDoubleBrackets.test(elementName)){
+					elementName = elementName.replace(regexDoubleBrackets, '[0][$1]');
+				} else if (regexSingleBrackets.test(elementName)){
+					elementName = elementName.replace(regexSingleBrackets, '[0]');
+				}
+				$(this).attr('name', elementName);
+			});
+		}
 		
 		// Loop each element
 		this.each(function() {
@@ -93,32 +96,34 @@
 				
 				// Increment clone IDs
 				if ($(clone).attr('id') ){
-					var newid = $(clone).attr('id')+'_'+(counter+1);
+					var newid = $(clone).attr('id')+'_'+counter;
 					$(clone).attr('id', newid);
 				};
 				
 				// Increment clone children IDs
 				$(clone).find('[id]').each(function(){
-					var newid = $(this).attr('id')+'_'+(counter+1);
+					var newid = $(this).attr('id')+'_'+counter;
 					$(this).attr('id', newid);
 				});
 				
 				// Increment clone children labels
 				$(clone).find('[for]').each(function(){
-					var newfor = $(this).attr('for')+'_'+(counter+1);
+					var newfor = $(this).attr('for')+'_'+counter;
 					$(this).attr('for', newfor);
 				});
 				
 				// Fix bracketed values of input names for array submittal
-				$(clone).find('input, textarea, select').each(function(){
-					var elementName = $(this).attr('name');
-					if (regexDoubleBrackets.test(elementName)){
-						elementName = elementName.replace(regexDoubleBrackets, '['+counter+'][$1]');
-					} else if (regexSingleBrackets.test(elementName)){
-						elementName = elementName.replace(regexSingleBrackets, '['+counter+']');
-					}
-					$(this).attr('name', elementName);
-				});
+				if (settings.explicitBracketNumbering) {
+					$(clone).find('input, textarea, select').each(function(){
+						var elementName = $(this).attr('name');
+						if (regexDoubleBrackets.test(elementName)){
+							elementName = elementName.replace(regexDoubleBrackets, '['+counter+'][$1]');
+						} else if (regexSingleBrackets.test(elementName)){
+							elementName = elementName.replace(regexSingleBrackets, '['+counter+']');
+						}
+						$(this).attr('name', elementName);
+					});
+				}
 				
 				// Clear Inputs/Textarea
 				if (settings.clearInputs){
