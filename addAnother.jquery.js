@@ -2,7 +2,7 @@
 (function($) {
 	
 	var regexSingleBrackets = /\[0?\]+$/;
-	var regexDoubleBrackets = /\[0?\]\[([^\]])\]+$/;
+	var regexDoubleBrackets = /\[0\]\[([^\]]*)\]+$/;
 
 	// Create the addAnother jQuery plugin
 	$.fn.addAnother = function(options) {
